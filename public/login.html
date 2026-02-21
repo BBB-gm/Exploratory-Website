@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <link rel="stylesheet" href="login.css">
+        <script type="text/javascript" src="login.js" defer></script>
+    </head>
+    <body class="no-margin">
+        <div class="flex-horz no-margin">
+            <div class="red half-width flex-vert">
+                <div class="form-container">
+                    <div class="form-inner">
+                        <h3 id="header">Login to the <strong>Grebel Canvas</strong></h3>
+                        <p id="subheader">Reach out to Ben to get an account!</p>
+
+                        <form id="form" method="post" action="login">
+                            <div id ="usrdiv" class="form-top no-margin">
+                                <label for="username">Username</label>
+                                <input id="username" name="username" class="form-control" type="text" placeholder="YourCoolUsername">
+                            </div>
+                            <div id="passdiv" class="form-bottom no-margin">
+                                <label for="password">Password</label>
+                                <input id="password" name="password" class="form-control" type="password" placeholder="AnEvenC00lerP@ssword">
+                            </div>
+                            <label id="error" class="error"></label>
+                            <button>Submit</button>
+                        </form>
+                        <p id="loginLink"><a href="/login.html?light">I don't want to use an account!</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="image-div half-width">
+                
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,8 @@
+# Config Files and Saved Data #
+accounts
+config.json
+canvas.json
+
+# Packages #
+node_modules
+package-lock.json

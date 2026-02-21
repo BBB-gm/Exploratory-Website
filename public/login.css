@@ -1,0 +1,116 @@
+body {
+   font-family: "Roboto", sans-serif;
+   font-size: 100%;
+   font-weight: 500;
+   
+}
+
+form div {
+   margin-top: 0.5em;
+}
+
+label {
+    font-size: 0.8em;
+}
+
+button {
+    width:100%;
+    margin-top: 1em;
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 0.25em;
+    color: #fff;
+    font-size: 1em;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+h3 {
+    color: #212529;
+    font-size:1.75em;
+    font-weight: 500;
+    margin: 0em;
+    margin-bottom: 0.5em;
+}
+
+p {
+    margin: 0em;
+    color: #888888;
+    margin-bottom: 1.5em;
+    font-size: 1em;
+}
+
+form input {
+    width: 100%;
+    color: #495057;
+    font-size: 1.5em;
+    border: none;
+    &:focus-visible{
+    outline: none;
+  }
+}
+.grey {
+    color: #888888;
+}
+
+.half-width {
+    width: 50%;
+}
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    width: 60%;
+}
+
+.no-margin {
+    margin: 0em;
+    padding: 0em;
+}
+.flex-vert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.flex-horz {
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction:row;
+}
+
+.form-top {
+    padding: 15px;
+    border-color: #888888;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-style: solid;
+    border-width: 1px;
+    border-bottom-style: none;
+}
+
+.form-bottom {
+    padding: 15px;
+    border-color: #888888;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.form-inner {
+    width: 100%;
+}
+
+.image-div {
+    background-image: url("./LoginThumbnail.png");
+    background-size: cover;
+    
+}
+
+.error {
+    color: #DD0000;
+    font-size: 1em;
+}
