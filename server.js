@@ -196,7 +196,6 @@ app.post("/lightlogin", function(req, res){
     let body = req.body;
 
     if(validateRequestField(body.username,"string",res,"username")){
-        console.log(body);
         let username = body.username;
         let alphaNumeric = /^[0-9A-Za-z]+$/;
 
