@@ -2,11 +2,23 @@ const { checkGridExists, writeGridToFile, loadGridFromFile, loadAccountFromFile,
 const { sendErrorResponse, validateRequestField, validateHexcode, validateNumberRange } = require("./modules/validationFunctions");
 const { log } = require("./modules/generalFunctions");
 const { validateAccountCredentials, validateAccountTrustable } = require("./modules/accountFunctions");
-const config = require("./config.json");
 const express = require('express');
+const fs = require("fs");
 var cors = require('cors');
 var session = require('express-session');
 const MemoryStore = require('memorystore')(session);
+const papertree = require("./PaperTree/PaperTree");
+
+var config;
+if(fs.existsSync("./config.json")){
+    config = require("./config.json");
+} else {
+    console.log("./config.json does not exist. One has been generated for you, please fill it out before continuing");
+    fs.writeFileSync("./config.json",JSON.stringify({secret:"", databasePassword:""}))
+    return;
+}
+
+const databaseFunctions = require("./modules/databaseFunctions");
 
 // DATA STRUCTURES
 pixels = []; //defined at bottom
@@ -31,6 +43,9 @@ if(checkGridExists()){
 
     writeGridToFile(pixels);
 }
+
+
+
 
 //Catch if we're running locally or on GCS
 const PORT = process.env.PORT || 4000;
@@ -78,19 +93,8 @@ app.use("/admin", (req, res, next) => {
     res.status(401).send();
 });
 
-//only a nickname is required on /light pathways
-app.use("/light", (req, res, next)=>{
-    if(req.session){
-        if(req.session.user || req.session.nickname){
-            next();
-            return;
-        }
-    }
-    res.redirect('/login.html?light');
-})
-
 app.use("/protected",express.static("protectedpublic"));
-app.use("/light",express.static("lightpublic"));
+
 
 app.use((req, res, next) => {
   if(req.method === "POST" && req.body === undefined){
@@ -102,10 +106,10 @@ app.use((req, res, next) => {
 
 
 app.get("/", function(req, res) {
-    res.redirect("/login.html?light");
+    res.redirect("/login.html");
 });
 
-app.get("/light/updates", function(req, res) {
+app.get("/protected/updates", function(req, res) {
     log("Got updates check");
 
     res.setHeader('Content-Type', 'text/event-stream');
@@ -132,7 +136,7 @@ app.post("/", function(req, res){
     
 });
 
-app.post("/light/canvas", function(req, res){
+app.post("/protected/canvas", function(req, res){
     
     if(validateNumberRange(req.body.x, res, "x", 0, size) && validateNumberRange(req.body.y, res, "y", 0, size)  && validateHexcode(req.body.color, res, "color") ){
         let x = req.body.x; //these are confirmed to be within allowed ranges;
@@ -155,7 +159,7 @@ app.post("/light/canvas", function(req, res){
     //note, if this point is reached a response is already sent
 });
 
-app.get("/light/canvas", function(req, res){
+app.get("/protected/canvas", function(req, res){
     res.send(JSON.stringify({size: size, grid: pixels}));
 });
 
@@ -192,33 +196,6 @@ app.post("/login", function(req, res){
     //note, if this point is reached a response is already sent
 });
 
-app.post("/lightlogin", function(req, res){
-    let body = req.body;
-
-    if(validateRequestField(body.username,"string",res,"username")){
-        let username = body.username;
-        let alphaNumeric = /^[0-9A-Za-z]+$/;
-
-        if(!alphaNumeric.test(username)){ //Data cannot be trusted
-            sendErrorResponse(res,"invalid nickname");
-            return;
-        } 
-        //username & password at this point can now be trusted as safe data
-        if(checkAccountExists(username)){ //name is therefore reserved.
-            res.send({success:false, code: 1, body: "Nickname is already in use"});
-            return;
-        }
-
-        req.session.regenerate(function(){
-            // Store the user's primary key
-            // in the session store to be retrieved,
-            // or in this case the entire user object
-            req.session.nickname = username;
-            req.session.permissions = [];
-            res.send({success: true});
-        })
-    }
-    //note, if this point is reached a response is already sent
-});
+papertree.initPaperTree(app, "/papertree"); // declares all of its routes
 
 app.listen(PORT, () => log(`Server running on port ${PORT}`));

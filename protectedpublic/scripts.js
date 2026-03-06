@@ -3,7 +3,7 @@ updatedPosition = {x:0, y:0};
 pan = {x:0, y:0};
 lastDrawPan = {x:0, y:0};
 
-url = window.location.origin +"/light";
+url = window.location.origin +"/protected";
 pixels = [];
 size = 100;
 isClicked = false;
