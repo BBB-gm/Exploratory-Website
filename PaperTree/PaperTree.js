@@ -15,14 +15,14 @@ function initPaperTree(app, pathIn){
 
     basePath = pathIn;
 
-    app.use(basePath, express.static("./PaperTree/public"))
+    app.use(basePath, express.static("./PaperTree/public"));
     app.get(basePath, (req, res)=>{
-        res.redirect("papertree.html")
-        //
+        res.redirect("papertree.html");
+
     })
     console.log(basePath+"/node")
     app.post(basePath+"/node", async (req, res)=>{
-        console.log("hi");
+        
         if(typeof req.body.node === "number"){
             res.send(await nodeStringify(await fetchNode(req.body.node)));
         }
@@ -36,7 +36,7 @@ async function testingInit(){
     let sql = "SELECT * FROM Accounts WHERE accountId = 1";
     let result = await databaseFunctions.sql_query(sql);
     if(result.length == 0){
-        await databaseFunctions.sql_query("INSERT INTO Accounts (username, password) VALUES ('billy', 'joel');")
+        await databaseFunctions.sql_query("INSERT INTO Accounts (username, password) VALUES ('billy', 'joel');");
     }
 }
 

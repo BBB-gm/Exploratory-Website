@@ -1,0 +1,52 @@
+
+body {
+    height: 100vh;
+    padding: 0em;
+    margin: 0em;
+}
+
+div {
+    padding: 0.5em;
+    margin: 0em;
+}
+
+.leftside {
+    width: 25%;
+}
+
+.fillout {
+    height: 100%;
+    padding: 0em;
+    margin: 0em;
+}
+
+.rightside {
+    width: 75%;
+}
+
+.minimap {
+    background-color: aqua;
+    height: 25%
+}
+
+.sidebar {
+    background-color: yellow;
+    height: 75%;
+}
+
+.main {
+    background-color: green;
+    height: 70%;
+}
+
+.link {
+    background-color: brown;
+    height: 30%;
+}
+
+.horzflex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+}

@@ -22,7 +22,7 @@ fetch(url, {
     }
 }).then((response) => response.json())
     .then((json)=>{
-    console.log("Hi")
+    
     titleHeader.innerText = json.name;
     bodyParagraph.innerText = json.body;
     json.links.forEach(element => {
