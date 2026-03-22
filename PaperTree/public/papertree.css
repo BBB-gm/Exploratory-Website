@@ -40,7 +40,59 @@ img {
 h2 {
     font-family: 'Libre Franklin', arial, serif;
     overflow-wrap: break-word;
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+    padding-left: 0.25em;
 }
+
+.titleEditor {
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
+    overflow-wrap: break-word;
+}
+
+.bodyEditor {
+    width: 90%;
+    height: 90%;
+}
+
+.textarea {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  resize: none;
+  min-height: 40px;
+  line-height: 20px;
+  overflow-wrap: break-word;
+}
+
+.textarea[contenteditable]:empty::before {
+  content: "Placeholder still possible";
+  color: gray;
+}
+
+.textarea:focus {
+    outline: 0px solid transparent;
+}
+
+.editDiv {
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 0em;
+    padding-bottom: 0.5em;
+    box-sizing: border-box;
+}
+
 .leftside {
     width: 25%;
 }
@@ -80,8 +132,24 @@ h2 {
     background-color: var(--primary-color);
     height: calc(70% - 12px);
     height: -webkit-calc(70% - 12px);
-
     margin: 4px;
+}
+
+.scrollable {
+    box-sizing: border-box;
+    padding: 0.5em;
+    margin: 0em;
+    overflow:scroll;
+    flex-grow: 1;
+    
+}
+
+.editable {
+    border: 1px solid black;
+}
+
+.editable:focus-within {
+    border: 2px solid teal;
 }
 
 .link {

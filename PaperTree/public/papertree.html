@@ -18,10 +18,18 @@
             </div>
             <div class="fillout rightside"> <!--Right Div-->
                 <div class="fillout inner-body main">
-                    <div>
+                    <div class="editDiv" id="display">
                         <h2 id="title">Papertree</h2>
-                        <button><img src="edit-icon.svg"/></button>
-                        <p id="body">hi! </p>
+                        <button id="editButton"><img src="edit-icon.svg"/></button>
+                        <div class="scrollable">
+                            <p id="body">hi! </p>
+                        </div>
+                    </div>
+                    <div class="editDiv" id="edit">
+                        <input class="titleEditor" type="text" id="titleEditor"> <br/>
+                        <div tabindex class="scrollable editable">
+                            <p><span id="bodyEditor" class="textarea" role="textbox" contenteditable></span></p>
+                        </div>
                     </div>
                 </div>
                 <div class="fillout inner-body link" id="linkdiv">
