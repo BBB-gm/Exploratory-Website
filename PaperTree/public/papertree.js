@@ -29,6 +29,7 @@ fetch(url, {
         console.log(element);
         let newLink = document.createElement("a");
 
+        //newLink.classList.add("link")
         newLink.innerText = element.name;
         newLink.href = "papertree.html?"+element.targetNodeId;
 
