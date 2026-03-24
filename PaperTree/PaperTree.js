@@ -31,7 +31,7 @@ function initPaperTree(app, pathIn){
 
     app.post(basePath+"/newPage", async (req, res)=>{
         if(typeof req.body.source === "number" && typeof req.body.linkName === "string" && typeof req.body.target === "number"){
-            6
+            
             let newPageID = await createNewPage(req.body.source);
 
             res.send({newPage: newPageID});
