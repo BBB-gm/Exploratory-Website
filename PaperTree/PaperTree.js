@@ -19,12 +19,29 @@ function initPaperTree(app, pathIn){
     app.get(basePath, (req, res)=>{
         res.redirect("papertree.html");
 
-    })
+    });
+
     console.log(basePath+"/node")
     app.post(basePath+"/node", async (req, res)=>{
         
         if(typeof req.body.node === "number"){
             res.send(await nodeStringify(await fetchNode(req.body.node)));
+        }
+    });
+
+    app.post(basePath+"/newPage", async (req, res)=>{
+        if(typeof req.body.source === "number" && typeof req.body.linkName === "string" && typeof req.body.target === "number"){
+            6
+            let newPageID = await createNewPage(req.body.source);
+
+            res.send({newPage: newPageID});
+        }
+    });
+
+    app.post(basePath+"/updatePage", async (req, res)=>{
+        if(typeof req.body.title === "string" && typeof req.body.body === "string" && typeof req.body.targetPage === "number"){
+            await databaseFunctions.sql_query("UPDATE Nodes SET name='"+req.body.title+"', body='"+req.body.body+"' WHERE nodeId="+req.body.targetPage+";");
+            res.send({body:"Done!"});
         }
     })
 }
@@ -60,12 +77,20 @@ async function fetchNode(id){
     }
 }
 
-async function writeNode(node) {
+async function createNewPage(sourceId) {
     await databaseFunctions.dbConnected;
 
-    let sql = "INSERT INTO Nodes (name, body,authorId) VALUES ('"+node.name+"','"+node.body+"',"+node.authorId+");";
-    
-    await databaseFunctions.sql_query(sql);
+    let newNode = createNodeObject("New Page","Text here",1);
+    let newLink = createLinkObject("New Link", sourceId, -1);
+
+    //the following transactions do not need to be atomic, as inserted ID is retrieved atomically, and the exact timing of the new link does not need to be deterministic.
+    let sql = "INSERT INTO Nodes (name, body,authorId) VALUES ('"+newNode.name+"','"+newNode.body+"',"+newNode.authorId+");";
+    let response = await databaseFunctions.sql_query(sql);
+
+    sql = "INSERT INTO Links (name, targetNodeId, sourceNodeId) VALUES ('"+newLink.name+"',"+response.insertId+","+newLink.sourceNodeId+");"
+    databaseFunctions.sql_query(sql); // needs not be awaited
+
+    return response.insertId;
 }
 
 async function writeLink(link){

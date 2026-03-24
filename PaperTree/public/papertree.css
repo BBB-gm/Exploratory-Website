@@ -23,15 +23,11 @@ a {
     width: 95%;
 }
 
-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 0em;
-    width: 30px;
-    height: 30px;
-    align-content: middle;
+p {
+    margin: 0em;
+    display: flex;
 }
+
 img {
     width: 25px;
     height: 25px;
@@ -70,13 +66,12 @@ h2 {
   width: 100%;
   overflow: hidden;
   resize: none;
-  min-height: 40px;
   line-height: 20px;
   overflow-wrap: break-word;
 }
 
 .textarea[contenteditable]:empty::before {
-  content: "Placeholder still possible";
+  content: "Your wonderful words go here";
   color: gray;
 }
 
@@ -91,6 +86,20 @@ h2 {
     padding-top: 0em;
     padding-bottom: 0.5em;
     box-sizing: border-box;
+
+    & button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        padding: 0em;
+        width: 30px;
+        height: 30px;
+        align-content: middle;
+    }
+}
+
+button {
+    align-content: middle;
 }
 
 .leftside {
@@ -153,10 +162,10 @@ h2 {
 }
 
 .link {
-    background-color: var(--primary-color);
+    background-color: grey;
     height: calc(30% - 12px);
     height: -webkit-calc(30% - 12px);
-
+    
     margin: 4px;
 }
 
@@ -164,4 +173,39 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.linkSection {
+    display: inline-block;
+    box-sizing: border-box;
+    font-size: large;
+    border-color: #0D1F22;
+    margin: 0.15em;
+    background-color: var(--primary-color);
+    border-radius: 5px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.newLink {
+    display: inline;
+}
+
+.smallImg {
+    width: 18px;
+    height: 18px;
+}
+
+.noPad {
+    padding: 0em;
+}
+
+.halfEmRight {
+    padding-right: 0.5em;
+}
+
+.centerContent {
+    align-content: center;
 }

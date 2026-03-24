@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" href="papertree.css">
         <link href=' http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+        <script type="text/javascript" src="classes.js" defer></script>
         <script type="text/javascript" src="papertree.js" defer></script>
     </head>
 
@@ -13,7 +14,7 @@
                     
                 </div>
                 <div class="fillout inner-body sidebar">
-
+                    
                 </div>
             </div>
             <div class="fillout rightside"> <!--Right Div-->
@@ -27,13 +28,20 @@
                     </div>
                     <div class="editDiv" id="edit">
                         <input class="titleEditor" type="text" id="titleEditor"> <br/>
+                        <button id="saveButton"><img src="save-icon.svg"/></button>
                         <div tabindex class="scrollable editable">
                             <p><span id="bodyEditor" class="textarea" role="textbox" contenteditable></span></p>
                         </div>
                     </div>
                 </div>
                 <div class="fillout inner-body link" id="linkdiv">
-
+                    <div id="newPageLink" class="linkSection">
+                        <p>
+                            <span id="newLinkName" class="textarea centerContent halfEmRight" role="textbox" contenteditable></span>
+                            <select id="newLinkTarget" class="halfEmRight"><option value = -1>New Page</option></select>
+                            <button onclick=onNewPageClick() class="noPad"><img class="smallImg"src="plus-icon.svg"/></button>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

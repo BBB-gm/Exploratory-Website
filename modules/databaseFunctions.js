@@ -33,6 +33,7 @@ const con = mysql.createConnection({
   user: "root",
   password: config.databasePassword
 });
+
 module.exports.dbConnected = new Promise((accept, reject)=>{
   con.connect(function(err) {
     if (err) throw err;
@@ -71,7 +72,7 @@ async function getUsernameFromId(accountId) {
   let result = await sql_query("SELECT * FROM Accounts WHERE accountId = "+accountId);
 
   if(result.length == 0){
-    return "ACCOUNT NOT FOUND"
+    return "ACCOUNT NOT FOUND";
   } else {
     return result[0].username;
   }
