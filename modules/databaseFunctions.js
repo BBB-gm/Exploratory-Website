@@ -51,7 +51,6 @@ module.exports.dbConnected = new Promise((accept, reject)=>{
       await new Promise((accept, reject)=>{
         con.query(DATABASE_SETUP[setupStep], (err, result) =>{
           if(err) throw err;
-          setupStep += 1;
           accept()
         })
       })
