@@ -28,6 +28,14 @@ const LINK_TABLE_CREATE = `CREATE TABLE IF NOT EXISTS Links (
   FOREIGN KEY (targetNodeId) REFERENCES Nodes(nodeId)
 );`
 
+const DATABASE_SETUP = [
+  "CREATE DATABASE IF NOT EXISTS "+DATABASE_NAME,
+  "USE "+DATABASE_NAME,
+  ACCOUNT_TABLE_CREATE,
+  NODE_TABLE_CREATE,
+  LINK_TABLE_CREATE
+]
+
 const con = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -35,36 +43,19 @@ const con = mysql.createConnection({
 });
 
 module.exports.dbConnected = new Promise((accept, reject)=>{
-  con.connect(function(err) {
+  con.connect(async function(err) {
     if (err) throw err;
     console.log("Connected!");
 
-    //confirm databases existance
-    con.query("CREATE DATABASE IF NOT EXISTS "+DATABASE_NAME, (err, result) =>  {
-      if (err) throw err;
-      console.log("Database Exists");
-
-      con.query("USE "+DATABASE_NAME, (err, result) =>  {
-        if (err) throw err;
-        console.log("Database selected");
-        
-        con.query(ACCOUNT_TABLE_CREATE, (err, result) => {
-          if (err) throw err; 
-          console.log("accounts exists");
-
-          con.query(NODE_TABLE_CREATE, (err, result) => {
-            if (err) throw err; 
-            console.log("users exists");
-
-            con.query(LINK_TABLE_CREATE,(err, result) =>  {
-              if (err) throw err;
-              console.log("statements exists");
-              accept();
-            });
-          });
-        });
-      });
-    });
+    for(var setupStep = 0; setupStep < DATABASE_SETUP.length; setupStep++){
+      await new Promise((accept, reject)=>{
+        con.query(DATABASE_SETUP[setupStep], (err, result) =>{
+          if(err) throw err;
+          setupStep += 1;
+          accept()
+        })
+      })
+    }
   });
 });
 
