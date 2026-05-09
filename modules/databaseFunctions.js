@@ -47,14 +47,17 @@ module.exports.dbConnected = new Promise((accept, reject)=>{
     if (err) throw err;
     console.log("Connected!");
 
+
     for(var setupStep = 0; setupStep < DATABASE_SETUP.length; setupStep++){
-      await new Promise((accept, reject)=>{
+      await new Promise((accept, reject)=>{ //wait until async request is complete before performing the next
         con.query(DATABASE_SETUP[setupStep], (err, result) =>{
           if(err) throw err;
-          accept()
+          accept() //allow next request to be made
         })
       })
     }
+
+    accept();
   });
 });
 

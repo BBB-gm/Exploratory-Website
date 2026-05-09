@@ -48,7 +48,7 @@ fetch(url, {
 
     json.links.forEach(element => {
         console.log(element);
-        let link = new Link(element.name,"papertree.html?page="+element.targetNodeId)
+        let link = new Link(element.name,"papertree.html?page="+element.targetNodeId, true);
     
         linkDiv.insertBefore(link.render(document), newPageLink);
     });

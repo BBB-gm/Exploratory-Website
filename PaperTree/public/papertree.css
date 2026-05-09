@@ -26,6 +26,7 @@ a {
 p {
     margin: 0em;
     display: flex;
+    vertical-align: middle;
 }
 
 img {
@@ -100,6 +101,7 @@ h2 {
 
 button {
     align-content: middle;
+    vertical-align: middle;
 }
 
 .leftside {
@@ -189,6 +191,16 @@ button {
     border-width: 2px;
 }
 
+.linkSection:hover {
+    -webkit-filter: brightness(70%);
+    filter: brightness(70%);
+    -webkit-transition: all 0.25s ease;
+    -moz-transition: all 0.25s ease;
+    -o-transition: all 0.25s ease;
+    -ms-transition: all 0.25s ease;
+    transition: all 0.25s ease;
+}
+
 .newLink {
     display: inline;
 }
@@ -196,11 +208,21 @@ button {
 .smallImg {
     width: 18px;
     height: 18px;
+    display:block;
+    margin:auto;
+}
+
+.editButton {
+    padding: 0em;
+    margin: 1px;
+    margin-right: 0px;
+    margin-left: 5px;
 }
 
 .noPad {
     padding: 0em;
 }
+
 
 .halfEmRight {
     padding-right: 0.5em;

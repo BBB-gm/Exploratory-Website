@@ -23,9 +23,15 @@ function initPaperTree(app, pathIn){
 
     console.log(basePath+"/node")
     app.post(basePath+"/node", async (req, res)=>{
-        
         if(typeof req.body.node === "number"){
-            res.send(await nodeStringify(await fetchNode(req.body.node)));
+            let nodeData = await fetchNode(req.body.node);
+            if(nodeData === null){
+                res.send("Node ID Invalid");
+            } else {
+                res.send(await nodeStringify(nodeData));
+            }
+        } else {
+            res.send("Bad Request");
         }
     });
 
