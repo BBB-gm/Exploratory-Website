@@ -14,8 +14,12 @@ const newLinkName = document.getElementById("newLinkName");
 const newLinkTarget = document.getElementById("newLinkTarget");
 
 var isEditing = false;
-let pageNumber = parseInt(window.location.search.substring(1));
-
+let query = parseQueryString(window.location.search);
+console.log(query);
+let pageNumber = parseInt(query.page);
+if(query.editing === "true"){ // if this is undefined then this fails as well
+    isEditing = true;
+}
 swapModes(isEditing);
 
 if(isNaN(pageNumber)){
@@ -44,7 +48,7 @@ fetch(url, {
 
     json.links.forEach(element => {
         console.log(element);
-        let link = new Link(element.name,"papertree.html?"+element.targetNodeId)
+        let link = new Link(element.name,"papertree.html?page="+element.targetNodeId)
     
         linkDiv.insertBefore(link.render(document), newPageLink);
     });
@@ -65,7 +69,7 @@ saveButton.addEventListener("click",e=>{
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    }).then(r=>r.json()).then(r=>{console.log(r);location.reload()});
+    }).then(r=>r.json()).then(r=>{query.editing = false; window.location.search=convertQueryToString(query)});
     
 });
 
@@ -96,11 +100,34 @@ function onNewPageClick(){
         method: "POST",
         body: JSON.stringify({
             source: pageNumber,
-            target: newLinkTarget.value,
+            target: parseInt(newLinkTarget.value),
             linkName: newLinkName.innerText
         }),
         headers: {
             "Content-type": "application/json; charset=UTF-8"
         }
-    }).then(r=>r.json()).then(r=>{console.log(r);document.location.href = "papertree.html?"+r.newPage});
+    }).then(r=>r.json()).then(r=>{console.log(r);document.location.href = "papertree.html?editing=true&page="+r.newPage});
+}
+
+function parseQueryString(queryString) {
+    queryString = queryString.substring(1);
+    parsedBody = {};
+
+    params = queryString.split("&");
+    params.forEach(e=>{
+        let parts = e.split("=");
+        parsedBody[parts[0]] = parts[1];
+    })
+
+    return parsedBody;
+}
+
+function convertQueryToString(query){
+    let outputString = "?";
+
+    Object.entries(query).forEach(e=>{
+        outputString += e[0]+"="+e[1] + "&";
+    });
+
+    return outputString.substring(0, outputString.length - 1);
 }

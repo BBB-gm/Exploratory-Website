@@ -30,11 +30,19 @@ function initPaperTree(app, pathIn){
     });
 
     app.post(basePath+"/newPage", async (req, res)=>{
+        console.log(req.body)
         if(typeof req.body.source === "number" && typeof req.body.linkName === "string" && typeof req.body.target === "number"){
-            
-            let newPageID = await createNewPage(req.body.source);
+            let target = req.body.target;
+            let source = req.body.source;
+            let linkName = req.body.linkName;
 
-            res.send({newPage: newPageID});
+            if(target === -1){
+                target = await createNewPage(source, linkName);
+            }
+
+            createNewLink(source,linkName,target);
+
+            res.send({newPage: target});
         }
     });
 
@@ -77,22 +85,25 @@ async function fetchNode(id){
     }
 }
 
-async function createNewPage(sourceId) {
+async function createNewPage() {
     await databaseFunctions.dbConnected;
 
     let newNode = createNodeObject("New Page","Text here",1);
-    let newLink = createLinkObject("New Link", sourceId, -1);
-
+    
     //the following transactions do not need to be atomic, as inserted ID is retrieved atomically, and the exact timing of the new link does not need to be deterministic.
     let sql = "INSERT INTO Nodes (name, body,authorId) VALUES ('"+newNode.name+"','"+newNode.body+"',"+newNode.authorId+");";
     let response = await databaseFunctions.sql_query(sql);
 
-    sql = "INSERT INTO Links (name, targetNodeId, sourceNodeId) VALUES ('"+newLink.name+"',"+response.insertId+","+newLink.sourceNodeId+");"
-    databaseFunctions.sql_query(sql); // needs not be awaited
-
     return response.insertId;
 }
 
+async function createNewLink(sourceId, linkName, target) {
+    await databaseFunctions.dbConnected;
+    let newLink = createLinkObject(linkName, sourceId, target);
+
+    sql = "INSERT INTO Links (name, targetNodeId, sourceNodeId) VALUES ('"+newLink.name+"',"+newLink.targetNodeId+","+newLink.sourceNodeId+");"
+    databaseFunctions.sql_query(sql); // needs not be awaited
+}
 async function writeLink(link){
     await databaseFunctions.dbConnected;
 
